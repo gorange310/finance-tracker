@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   devise_for :users
   root "pages#home"
   get "search_stock", to: "stocks#search"
+  get "search_user", to: "users#search"
+
   get "my_portfolio", to: "users#my_portfolio"
   get "following", to: "users#following"
 end
