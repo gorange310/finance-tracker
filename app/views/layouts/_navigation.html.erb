@@ -9,12 +9,12 @@
       <ul class="navbar-nav mr-auto">
         <li class="nav-item <%= "active" if request.path == my_portfolio_path %>" >
           <%= link_to my_portfolio_path, class:"nav-link" do %>
-            Portfolio <%= fa_icon "bookmark" %> 
+            <%= fa_icon "bookmark" %> Portfolio  
           <% end %>
         </li>
         <li class="nav-item <%= "active" if request.path == following_path %>" >
           <%= link_to following_path, class:"nav-link" do %>
-            Following <%= fa_icon "group" %> 
+            <%= fa_icon "group" %> Following  
           <% end %>
         </li>
         <li class="nav-item dropdown">
@@ -25,13 +25,7 @@
             <%= link_to edit_user_registration_path, class:"dropdown-item" do %>
               <%= fa_icon "edit" %> Edit
             <% end %>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
           </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
         </li>
       </ul>
 
