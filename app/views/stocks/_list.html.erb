@@ -6,6 +6,7 @@
           <th scope="col">Ticker</th>
           <th scope="col">Name</th>
           <th scope="col">Price</th>
+          <th scope="col">Updated</th>
           <th scope="col">Actions</th>
         </tr>
       </thead>
@@ -15,7 +16,10 @@
           <th scope="row"><%= stock.ticker %></th>
           <td><%= stock.name %></td>
           <td><%= stock.last_price %></td>
-          <td><% if current_user.can_track_stock?(stock.ticker) %>
+          <td><small><%= stock.updated_at.strftime("%Y-%m-%d %H:%M") %></small></td>
+          <td><%= link_to "Update", stock_path(stock),
+                  method: :put, class:"btn btn-sm btn-success" %>
+              <% if current_user.can_track_stock?(stock.ticker) %>
               <%= link_to "Add to Portfolio", user_stocks_path(user: current_user, ticker: stock.ticker),
                   method: :post, class:"btn btn-sm btn-success" %>
               <% elsif current_user != @user %>

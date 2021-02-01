@@ -22,5 +22,12 @@ class Stock < ApplicationRecord
     find_by(ticker: ticker_symbol)
   end
 
+  def self.update_price(stock_id)
+    client = IEX::Api::Client.new(
+              publishable_token: Rails.application.credentials.iex_client[:sandbox_api_key],
+              endpoint: 'https://sandbox.iexapis.com/v1')
+    Stock.update(stock_id, last_price: client.price(Stock.find(stock_id).ticker))
+  end
+
 
 end

@@ -19,4 +19,16 @@ class StocksController < ApplicationController
       end
     end
   end
+
+  def update
+    stock = Stock.update_price(params[:id])
+    if stock.update(params.permit(:id))
+      flash.now[:notice] = "#{stock} updated"
+      redirect_to my_portfolio_path
+    else
+      flash.now[:alert] = "Error! #{stock} update failed!"
+      redirect_to my_portfolio_path
+    end
+  end
+
 end
