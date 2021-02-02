@@ -2,6 +2,11 @@
 This is a US stock tracker app
 
 I'm currently a Ruby/Rails app developer, this is my personal project when I was learn from Udemy Course: the-complete-ruby-on-rails-developer-course.
+I followed RESTful conventions for my routes but since I was only utilizing certain functions, I added limitations to them.
+Users can only be showed.
+Stcoks can only be updated.
+It isn't full CRUD but enough to implement the user stories required. There’s also room to expand in the future to for the other CRUD features.
+
 
 ## 1 Development tools
 
