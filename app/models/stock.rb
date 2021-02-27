@@ -5,20 +5,20 @@ class Stock < ApplicationRecord
   validates :name, :ticker, presence: true, uniqueness: {case_sensitive: false}
 
   before_create { self.ticker = ticker.upcase }
-  
-  
 
   def self.new_lookup(ticker_symbol)
     client = IEX::Api::Client.new(
               publishable_token: Rails.application.credentials.iex_client[:sandbox_api_key],
               endpoint: 'https://sandbox.iexapis.com/v1')
-    stock = Stock.check_db(ticker_symbol.upcase!)
-    if stock
-      update_price(stock.id)
-    else
-      new(ticker: ticker_symbol, 
-          name: client.company(ticker_symbol).company_name,
-          last_price: client.price(ticker_symbol))
+    begin client.quote(ticker_symbol)
+      stock = Stock.check_db(ticker_symbol.upcase!)
+      if stock
+        update_price(stock.id)
+      else
+        create!(ticker: ticker_symbol, name: client.company(ticker_symbol).company_name, last_price: client.price(ticker_symbol))
+      end
+    rescue => exception
+      nil
     end
   end
 
