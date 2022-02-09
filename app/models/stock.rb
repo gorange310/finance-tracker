@@ -11,16 +11,17 @@ class Stock < ApplicationRecord
 
   def self.new_lookup(ticker_symbol)
     client = IEX::Api::Client.new(
-              publishable_token: Rails.application.credentials.iex_client[:sandbox_api_key],
-              endpoint: 'https://sandbox.iexapis.com/v1'
-            )
+      publishable_token: Rails.application.credentials.iex_client[:sandbox_api_key],
+      endpoint: 'https://sandbox.iexapis.com/v1'
+    )
+
     begin client.quote(ticker_symbol)
       stock = Stock.check_db(ticker_symbol.upcase)
 
       if stock.present?
-        update_price(stock.id)
+        stock.update_price
       else
-        create(ticker: ticker_symbol, name: client.company(ticker_symbol).company_name, last_price: client.price(ticker_symbol))
+        Stock.create(ticker: ticker_symbol, name: client.company(ticker_symbol).company_name, last_price: client.price(ticker_symbol))
       end
     rescue => exception
       nil
@@ -28,14 +29,15 @@ class Stock < ApplicationRecord
   end
 
   def self.check_db(ticker_symbol)
-    find_by(ticker: ticker_symbol)
+    Stock.find_by(ticker: ticker_symbol)
   end
 
-  def self.update_price(stock_id)
+  def update_price
     client = IEX::Api::Client.new(
-              publishable_token: Rails.application.credentials.iex_client[:sandbox_api_key],
-              endpoint: 'https://sandbox.iexapis.com/v1'
-            )
-    Stock.update(stock_id, last_price: client.price(Stock.find(stock_id).ticker))
+      publishable_token: Rails.application.credentials.iex_client[:sandbox_api_key],
+      endpoint: 'https://sandbox.iexapis.com/v1'
+    )
+
+    stock.update(last_price: client.price(self.ticker))
   end
 end
