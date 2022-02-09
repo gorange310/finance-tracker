@@ -15,7 +15,7 @@ It isn't full CRUD but enough to implement the user stories required. There’s 
 
 * Rails 6.1.1
 
-* PostgreSQL 9.3
+* PostgreSQL
 
 * User system: gem 'devise'
 
